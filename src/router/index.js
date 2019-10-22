@@ -1,29 +1,34 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Router from 'vue-router'
+import HomeView from '@/components/HomeView'
+import DetailView from '@/components/DetailView'
+import PostView from '@/components/PostView'
+import CameraView from '@/components/CameraView'
 
-Vue.use(VueRouter)
 
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+Vue.use(Router)
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+export default new Router({
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: HomeView
+    },
+    {
+      path: '/detail/:id',
+      name: 'detail',
+      component: DetailView
+    },
+    {
+      path: '/post',
+      name: 'post',
+      component: PostView
+	},
+	{
+		path: '/camera',
+		name: 'camera',
+		component: CameraView
+	  }
+  ]
 })
-
-export default router

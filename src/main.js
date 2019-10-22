@@ -1,11 +1,32 @@
-import Vue from 'vue'
-import App from './App.vue'
-import './registerServiceWorker'
-import router from './router'
 
+import { firestorePlugin } from 'vuefire'
+import Vue from 'vue'
+import VueResource from 'vue-resource'
+import App from './App'
+import router from './router'
+import { database } from '@/services/firebase'
+import VueAnalytics from 'vue-analytics'
+
+Vue.use(firestorePlugin)
+Vue.use(VueResource)
+Vue.use(VueAnalytics, {
+  id: 'UA-101944993-1',
+  router
+})
 Vue.config.productionTip = false
 
 new Vue({
-  router,
-  render: h => h(App)
-}).$mount('#app')
+	el: '#app',
+	firebase: {
+	  cat: database.ref('cat').orderByChild('created_at')
+	},
+	router,
+	render: h => h(App)
+  }).$mount('#app')
+
+
+
+
+  
+  
+
