@@ -1,19 +1,21 @@
-import firebase from 'firebase'
+import firebase from '@firebase/app'
+import 'firebase/firestore'
+import 'firebase/firebase-auth'
+import 'firebase/storage'
+
 
 var config = {
-  apiKey: 'AIzaSyCqM9bPtHmERf7Zcf2kL-ktaJZu8711Rng',
-  authDomain: 'cropchat-50ff7.firebaseapp.com',
-  databaseURL: 'https://cropchat-50ff7.firebaseio.com',
-  projectId: 'cropchat-50ff7',
-  storageBucket: 'cropchat-50ff7.appspot.com',
-  messagingSenderId: '187222083715'
-}
-firebase.initializeApp(config)
+	apiKey: "AIzaSyCE33S-qHyNgtnLqzUUzl7AhEEkAES1a6A",
+    authDomain: "cropchat-25a22.firebaseapp.com",
+    databaseURL: "https://cropchat-25a22.firebaseio.com",
+    projectId: "cropchat-25a22",
+    storageBucket: "cropchat-25a22.appspot.com",
+    messagingSenderId: "215413294610",
+  };
 
-const database = firebase.database()
-const storage = firebase.storage()
+const fb = firebase.initializeApp(config)
+const db = firebase.firestore();
 
-export {
-  database,
-  storage
-}
+export {fb,db}
+
+

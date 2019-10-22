@@ -1,7 +1,7 @@
 
 <template>
   <div class="camera-modal">
-    <video ref="video" class="camera-stream"/>
+    <video id="video" ref="video" class="camera-stream"/>
     <div class="camera-modal-container">
             <span @click.prevent="capture" class="take-picture-button take-picture-button mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
               <i class="material-icons">camera</i>
@@ -12,22 +12,25 @@
 
 <script>
   import { storage } from '@/services/firebase'
-  import postCat from '@/mixins/postCat'
+  import {fb,db} from '../services/firebase.js'
+  import convert from '../mixins/convert'
+
   export default {
-    mixins: [postCat],
     data () {
       return {
         mediaStream: null
       }
     },
     mounted () {
-      navigator.mediaDevices.getUserMedia({ video: true })
+		this.$nextTick(()=>{navigator.mediaDevices.getUserMedia({ video: true })
+	
         .then(mediaStream => {
           this.mediaStream = mediaStream
           this.$refs.video.srcObject = mediaStream
           this.$refs.video.play()
         })
-        .catch(error => console.error('getUserMedia() error:', error))
+        .catch(error => console.error('getUserMedia() error:', error))})
+	  
     },
     destroyed () {
       const tracks = this.mediaStream.getTracks()
@@ -35,14 +38,23 @@
     },
     methods: {
       capture () {
-        const mediaStreamTrack = this.mediaStream.getVideoTracks()[0]
-        const imageCapture = new window.ImageCapture(mediaStreamTrack)
-        return imageCapture.takePhoto().then(blob => {
-          storage.ref().child('images/picture' + new Date().getTime()).put(blob)
-            .then(res => {
-              this.postCat(res.metadata.downloadURLs[0], 'Hello')
-            })
-        })
+	   const canvas = document.createElement("canvas")
+	   canvas.width = video.videoWidth
+	   canvas.height =500
+	   const ctx = canvas.getContext("2d")
+	
+	   ctx.drawImage(video,0,0,canvas.width,canvas.height)
+
+	   // const image = document.createElement("img")
+	   const image = new Image()
+	   image.src= canvas.toDataURL()
+	   document.body.appendChild(image)
+	   console.log(image)
+	   
+	var storageRef= fb.storage().ref('images/'+ "ciao")
+	var newIMG = new convert().dataToURL(image.src,Date.now())
+	storageRef.put(newIMG)
+	   
       }
     }
   }
