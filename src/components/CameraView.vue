@@ -18,7 +18,10 @@
   export default {
     data () {
       return {
-        mediaStream: null
+		mediaStream: null,
+		imageURL:{
+			image:null
+		}
       }
     },
     mounted () {
@@ -50,14 +53,15 @@
 	   image.src= canvas.toDataURL()
 	   document.body.appendChild(image)
 	   console.log(image)
-	   
-	var storageRef= fb.storage().ref('images/'+ "ciao")
+	var storageRef= fb.storage().ref('images/'+ Date.now())
 	var newIMG = new convert().dataToURL(image.src,Date.now())
-	storageRef.put(newIMG)
-	   
-      }
-    }
+	let uploadTask = storageRef.put(newIMG)
+ 
+	
+	}
+	}
   }
+  
 </script>
 
 <style scoped>
