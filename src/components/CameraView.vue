@@ -7,6 +7,8 @@
               <i class="material-icons">camera</i>
             </span>
     </div>
+
+	<h6> DOWNLOAD  UPLOADED PHOTO : {{this.imageURL.image}}</h6>  
   </div>
 </template>
 
@@ -56,9 +58,18 @@
 	var storageRef= fb.storage().ref('images/'+ Date.now())
 	var newIMG = new convert().dataToURL(image.src,Date.now())
 	let uploadTask = storageRef.put(newIMG)
- 
-	
-	}
+ uploadTask.on('state_changed',(snapshot)=>{
+
+ },(error) => {
+
+ },()=>{
+
+     uploadTask.snapshot.ref.getDownloadURL().then((downloadURL)=>{
+		 this.imageURL.image = downloadURL;
+		 console.log('file available at' , downloadURL)
+	 })
+ })
+	  }
 	}
   }
   
